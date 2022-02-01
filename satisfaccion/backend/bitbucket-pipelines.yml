@@ -1,0 +1,18 @@
+image: nikolaik/python-nodejs:python3.8-nodejs14
+
+pipelines:
+  branches:
+    master:
+      - step:
+          caches:
+            - node
+          script:
+            - python -V
+            - npm -v
+            - npm install -g serverless
+            - npm i
+            - touch variables_production.yml
+            - ls
+            - serverless config credentials --stage prod --provider aws --key ${AWS_ACCESS_KEY_ID} --secret ${AWS_SECRET_ACCESS_KEY}
+            - serverless deploy --stage prod function -f principal
+            
